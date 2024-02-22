@@ -1,26 +1,72 @@
+/* eslint-disable no-new */
 import fs from 'node:fs'
 import path from 'node:path'
 
+import ExifImage from 'exif'
+
+const photosPath = path.join(
+  __filename,
+  '..',
+  '..',
+  '..',
+  '..',
+  '..',
+  'web',
+  'public',
+  'photos'
+)
+
 const files = fs
-  .readdirSync(
-    path.join(
-      __filename,
-      '..',
-      '..',
-      '..',
-      '..',
-      '..',
-      'web',
-      'public',
-      'photos'
-    )
-  )
+  .readdirSync(photosPath)
   .filter((file) => !file.match(/^\.DS_Store$/))
 
-const photos = files.map((filename, id) => ({ id: id + 1, filename }))
+const getMetadata = (filename) => {
+  return new Promise((resolve, reject) => {
+    new ExifImage(
+      {
+        image: path.join(photosPath, filename),
+      },
+      (error, data) => {
+        if (error) {
+          reject(error)
+        } else {
+          resolve(data)
+        }
+      }
+    )
+  })
+}
 
-const photoDetails = (id) => {
-  const photo = photos.find((photo) => photo.id === id)
+const getPhotos = async () => {
+  const photos = []
+  let id = 1
+
+  for (const filename of files) {
+    const metadata = await getMetadata(filename)
+    const fStop = Math.round(1.4142 ** metadata.exif.ApertureValue * 10) / 10
+    const shutterSpeed = `1/${1 / metadata.exif.ExposureTime}`
+
+    photos.push({
+      id: id++,
+      filename,
+      metadata: {
+        image: { ...metadata.image },
+        exif: {
+          ...metadata.exif,
+          FNumber: fStop,
+          ShutterSpeedNumber: shutterSpeed,
+        },
+      },
+    })
+  }
+
+  return photos
+}
+
+const photoDetails = async (id) => {
+  const photo = (await getPhotos({ metadata: true })).find(
+    (photo) => photo.id === id
+  )
 
   return {
     statusCode: 200,
@@ -31,13 +77,13 @@ const photoDetails = (id) => {
   }
 }
 
-const allPhotos = () => {
+const allPhotos = async () => {
   return {
     statusCode: 200,
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(photos),
+    body: JSON.stringify(await getPhotos({ metadata: false })),
   }
 }
 
@@ -51,9 +97,9 @@ const notFound = () => {
 export const handler = async (event) => {
   if (event.path.match(/photos\/(\d+)\/?$/)) {
     const id = parseInt(event.path.match(/photos\/(\d+)/)[1])
-    return photoDetails(id)
+    return await photoDetails(id)
   } else if (event.path.match(/photos\/?$/)) {
-    return allPhotos()
+    return await allPhotos()
   } else {
     return notFound()
   }

@@ -26,7 +26,7 @@ const HomePage = () => {
 
       <div className="">
         <ul className="flex flex-wrap justify-center">
-          {photos.map((photo) => (
+          {photos?.map((photo) => (
             <Slide photo={photo} key={photo.id} onClick={onClick} />
           ))}
         </ul>
