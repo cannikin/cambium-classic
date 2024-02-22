@@ -5,9 +5,10 @@ import { photos } from 'web/src/lib/data'
 import { Metadata } from '@redwoodjs/web'
 
 const EditPage = ({ id }) => {
+  const [photo, setPhoto] = useState({})
   const [windowHeight, setWindowHeight] = useState(window.innerHeight)
-  const photo = photos.find((photo) => photo.id === parseInt(id))
 
+  // resize the height of portrait photos so they fit in the browser
   useEffect(() => {
     window.addEventListener('resize', onResize)
     onResize()
@@ -16,24 +17,34 @@ const EditPage = ({ id }) => {
     }
   }, [])
 
+  useEffect(() => {
+    fetch(`/.redwood/functions/photos/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setPhoto(data)
+      })
+  }, [id])
+
   const onResize = () => {
-    setWindowHeight(window.innerHeight)
+    setWindowHeight(window.innerHeight - 40)
   }
 
   return (
     <>
-      <Metadata title="Edit" description="Edit page" />
+      <Metadata title={`Edit ${photo.filename}`} description="Edit a photo" />
 
-      <div className="mx-auto max-w-screen-lg justify-center space-x-4 md:flex">
+      <div className="space-x-4 md:flex">
         <div className="flex w-full justify-center md:w-3/4">
-          <img
-            src={`/photos/${photo.filename}`}
-            alt={`id ${id}`}
-            className="rounded"
-            style={{ maxHeight: windowHeight - 50 }}
-          />
+          <div className="mx-2">
+            <img
+              src={`/photos/${photo.filename}`}
+              alt={`id ${id}`}
+              className="rounded shadow-lg"
+              style={{ maxHeight: windowHeight - 50 }}
+            />
+          </div>
         </div>
-        <div className="w-1/4">
+        <div className="w-1/4 text-white">
           <h2 className="text-xl font-semibold">{photo.filename}</h2>
         </div>
       </div>

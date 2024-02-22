@@ -6865,6 +6865,7 @@ __metadata:
   dependencies:
     "@redwoodjs/api": "npm:7.0.1"
     "@redwoodjs/graphql-server": "npm:7.0.1"
+    exif: "npm:^0.6.0"
   languageName: unknown
   linkType: soft
 
@@ -9466,7 +9467,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:2.6.9, debug@npm:^2.2.0, debug@npm:^2.3.3":
+"debug@npm:2.6.9, debug@npm:^2.2, debug@npm:^2.2.0, debug@npm:^2.3.3":
   version: 2.6.9
   resolution: "debug@npm:2.6.9"
   dependencies:
@@ -11014,6 +11015,15 @@ __metadata:
     signal-exit: "npm:^3.0.3"
     strip-final-newline: "npm:^2.0.0"
   checksum: 10c0/c8e615235e8de4c5addf2fa4c3da3e3aa59ce975a3e83533b4f6a71750fb816a2e79610dc5f1799b6e28976c9ae86747a36a606655bf8cb414a74d8d507b304f
+  languageName: node
+  linkType: hard
+
+"exif@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "exif@npm:0.6.0"
+  dependencies:
+    debug: "npm:^2.2"
+  checksum: 10c0/c131603654bfede103a2cd2d0a1ea076add9de8ece43934aa496378dc5916fdb082b3f080f578a10ceafd3e50e3ec655bc0c33e35c912f6c3bceab159e8213a7
   languageName: node
   linkType: hard
 
