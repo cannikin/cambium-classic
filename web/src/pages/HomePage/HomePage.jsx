@@ -14,19 +14,19 @@ const HomePage = () => {
     <>
       <Metadata title="Home" description="Home page" />
 
-      <div className="mx-auto max-w-screen-xl">
+      <div className="mx-auto max-w-screen-lg xl:max-w-screen-xl">
         <ul className="flex flex-wrap justify-center">
           {photos.map((photo) => (
             <li
               key={photo.id}
-              className="flex max-h-50 w-56 cursor-pointer justify-center p-2 transition duration-150 ease-in-out hover:scale-110"
+              className="flex w-full cursor-pointer justify-center p-2 transition duration-150 ease-in-out hover:scale-110 md:w-1/3 lg:w-1/4 xl:w-1/5"
               onClick={() => onClick(photo)}
             >
-              <div className="">
+              <div className="flex items-center">
                 <img
                   src={`/photos/${photo.filename}`}
                   alt={`id ${photo.id}`}
-                  className="h-full rounded-sm object-contain"
+                  className="rounded-sm object-cover md:max-h-50"
                 />
               </div>
             </li>
