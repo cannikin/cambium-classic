@@ -14,7 +14,7 @@ const HomePage = () => {
     <>
       <Metadata title="Home" description="Home page" />
 
-      <div className="mx-auto max-w-screen-lg">
+      <div className="mx-auto max-w-screen-xl">
         <ul className="flex flex-wrap justify-center">
           {photos.map((photo) => (
             <li
