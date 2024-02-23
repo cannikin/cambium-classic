@@ -41,14 +41,14 @@ const EditPage = ({ id }) => {
             <img
               src={`/photos/${photo.filename}`}
               alt={`id ${id}`}
-              className="rounded shadow-lg"
+              className="rounded shadow shadow-black"
               style={{ maxHeight: windowHeight - 50 }}
             />
           </div>
         </div>
-        <div className="w-1/4 text-white">
-          <div className="mr-4">
-            <h2 className="border-b border-neutral-500 pb-2 text-xl font-semibold">
+        <div className="w-1/4">
+          <div className="mr-6">
+            <h2 className="border-b-2 border-neutral-600 pb-2 text-xl font-semibold text-neutral-300">
               {photo.filename}
             </h2>
 
@@ -99,7 +99,7 @@ const EditPage = ({ id }) => {
                     <td>{photo.metadata.exif.ShutterSpeedNumber}</td>
                   </tr>
                   <tr>
-                    <td>F-stop</td>
+                    <td>Aperture</td>
                     <td>f/{photo.metadata.exif.FNumber}</td>
                   </tr>
                 </tbody>
