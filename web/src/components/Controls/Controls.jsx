@@ -1,143 +1,73 @@
+const controls = [
+  {
+    name: 'brightness',
+    label: 'Brightness',
+    min: 0,
+    max: 3,
+    step: 0.01,
+    defaultValue: 1,
+  },
+  {
+    name: 'contrast',
+    label: 'Contrast',
+    min: 0,
+    max: 3,
+    step: 0.01,
+    defaultValue: 1,
+  },
+  {
+    name: 'hue-rotate',
+    label: 'Hue',
+    min: 0,
+    max: 360,
+    step: 1,
+    defaultValue: 0,
+  },
+  {
+    name: 'saturate',
+    label: 'Saturation',
+    min: 0,
+    max: 3,
+    step: 0.01,
+    defaultValue: 1,
+  },
+  {
+    name: 'grayscale',
+    label: 'Black & White',
+    min: 0,
+    max: 100,
+    step: 0.5,
+    defaultValue: 0,
+  },
+]
+
 const Controls = ({ refs, onChange, onShare, onReset, onResetAll }) => {
   return (
     <form className="mt-4 flex flex-col space-y-5">
-      <div>
-        <label htmlFor="brightness">
-          <span>Brightness</span>
-          <button
-            type="button"
-            className="reset"
-            onClick={() => onReset('brightness')}
-          >
-            Reset
-          </button>
-        </label>
-        <input
-          type="range"
-          name="brightness"
-          ref={refs.brightness}
-          onChange={onChange}
-          defaultValue={1}
-          min={0}
-          max={3}
-          step={0.01}
-        />
-      </div>
-
-      <div className="control">
-        <label htmlFor="contrast">
-          <span>Contrast</span>
-          <button
-            type="button"
-            className="reset"
-            onClick={() => onReset('contrast')}
-          >
-            Reset
-          </button>
-        </label>
-        <input
-          type="range"
-          name="contrast"
-          ref={refs.contrast}
-          onChange={onChange}
-          defaultValue={1}
-          min={0}
-          max={3}
-          step={0.01}
-        />
-      </div>
-
-      <div className="control">
-        <label htmlFor="hue-rotate">
-          <span>Hue</span>{' '}
-          <button
-            type="button"
-            className="reset"
-            onClick={() => onReset('hue-rotate')}
-          >
-            Reset
-          </button>
-        </label>
-        <input
-          type="range"
-          name="hue-rotate"
-          ref={refs['hue-rotate']}
-          onChange={onChange}
-          defaultValue={0}
-          min={0}
-          max={360}
-          step={1}
-        />
-      </div>
-
-      <div className="control">
-        <label htmlFor="saturate">
-          <span>Saturation</span>{' '}
-          <button
-            type="button"
-            className="reset"
-            onClick={() => onReset('saturate')}
-          >
-            Reset
-          </button>
-        </label>
-        <input
-          type="range"
-          name="saturate"
-          ref={refs.saturate}
-          onChange={onChange}
-          defaultValue={1}
-          min={0}
-          max={3}
-          step={0.01}
-        />
-      </div>
-
-      <div className="control">
-        <label htmlFor="grayscale">
-          <span>Black & White</span>{' '}
-          <button
-            type="button"
-            className="reset"
-            onClick={() => onReset('grayscale')}
-          >
-            Reset
-          </button>
-        </label>
-        <input
-          type="range"
-          name="grayscale"
-          ref={refs.grayscale}
-          onChange={onChange}
-          defaultValue={0}
-          min={0}
-          max={100}
-          step={0.5}
-        />
-      </div>
-
-      {/* <div className="control">
-                <label htmlFor="sepia">
-                <span>Sepia Tone</span>
-                  <button
-                    type="button"
-                    className="reset"
-                    onClick={() => onReset('sepia')}
-                  >
-                    Reset
-                  </button>
-                </label>
-                <input
-                  type="range"
-                  name="sepia"
-                  ref={refs.sepia}
-                  onChange={onChange}
-                  defaultValue={0}
-                  min={0}
-                  max={1}
-                  step={0.01}
-                />
-              </div> */}
+      {controls.map((control, i) => (
+        <div key={i}>
+          <label htmlFor={control.name}>
+            <span>{control.label}</span>
+            <button
+              type="button"
+              className="reset"
+              onClick={() => onReset(control.name)}
+            >
+              Reset
+            </button>
+          </label>
+          <input
+            type="range"
+            name={control.name}
+            ref={refs[control.name]}
+            onChange={onChange}
+            defaultValue={control.defaultValue}
+            min={control.min}
+            max={control.max}
+            step={control.step}
+          />
+        </div>
+      ))}
 
       <div className="flex justify-between space-x-4 pt-4">
         <button
