@@ -47,7 +47,7 @@ const EditPage = ({ id }) => {
           </div>
         </div>
         <div className="w-1/4 text-white">
-          <div className="mr-2">
+          <div className="mr-4">
             <h2 className="border-b border-neutral-500 pb-2 text-xl font-semibold">
               {photo.filename}
             </h2>
