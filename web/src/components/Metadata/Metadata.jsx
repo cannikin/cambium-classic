@@ -6,7 +6,7 @@ const Metadata = ({ photo }) => {
   }
 
   return (
-    <div className="mx-4 mt-8 items-start md:flex md:space-x-8">
+    <div className="-my-2">
       <table className="metadata w-full">
         <tbody>
           <tr>
@@ -34,11 +34,7 @@ const Metadata = ({ photo }) => {
             <td>Resolution</td>
             <td>{photo.metadata.image.XResolution} ppi</td>
           </tr>
-        </tbody>
-      </table>
 
-      <table className="metadata w-full">
-        <tbody>
           <tr>
             <td>Camera</td>
             <td>
@@ -53,11 +49,6 @@ const Metadata = ({ photo }) => {
             <td>ISO</td>
             <td>{photo.metadata.exif.ISO}</td>
           </tr>
-        </tbody>
-      </table>
-
-      <table className="metadata w-full">
-        <tbody>
           <tr>
             <td>Shutter Speed</td>
             <td>{photo.metadata.exif.ShutterSpeedNumber}</td>

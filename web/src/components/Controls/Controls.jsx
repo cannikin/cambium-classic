@@ -45,7 +45,7 @@ const Controls = ({ refs, onChange, onShare, onReset, onResetAll }) => {
   return (
     <form className="mt-4 flex flex-col space-y-5">
       {controls.map((control, i) => (
-        <div key={i}>
+        <div key={i} className="control">
           <label htmlFor={control.name}>
             <span>{control.label}</span>
             <button

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-import { Transition } from '@headlessui/react'
+import { Tab, Transition } from '@headlessui/react'
 import clsx from 'clsx'
 
 import Controls from 'src/components/Controls'
@@ -15,11 +15,13 @@ const DEFAULT_ADJUSTMENTS = {
   sepia: 0,
 }
 
+const TABS = ['Adjustments', 'Metadata']
+
 const EditPage = ({ id }) => {
   const [photo, setPhoto] = useState({})
-  const [show, setShow] = useState(false)
+  const [showImage, setShowImage] = useState(false)
+  const [showTitle, setShowTitle] = useState(false)
   const [showControls, setShowControls] = useState(false)
-  const [showMetadata, setShowMetadata] = useState(false)
   const [adjustments, setAdjustments] = useState(DEFAULT_ADJUSTMENTS)
   const [windowHeight, setWindowHeight] = useState(window.innerHeight)
   const refs = {
@@ -54,6 +56,18 @@ const EditPage = ({ id }) => {
     console.info('share')
   }
 
+  const onImageLoad = () => {
+    setShowImage(true)
+
+    setTimeout(() => {
+      setShowTitle(true)
+    }, 250)
+
+    setTimeout(() => {
+      setShowControls(true)
+    }, 500)
+  }
+
   // resize the height of portrait photos so they fit in the browser
   useEffect(() => {
     window.addEventListener('resize', onResize)
@@ -71,16 +85,6 @@ const EditPage = ({ id }) => {
       })
   }, [id])
 
-  useEffect(() => {
-    setTimeout(() => {
-      setShowControls(show)
-    }, 150)
-
-    setTimeout(() => {
-      setShowMetadata(show)
-    }, 250)
-  }, [show])
-
   const onResize = () => {
     setWindowHeight(window.innerHeight - 40)
   }
@@ -89,22 +93,22 @@ const EditPage = ({ id }) => {
     <>
       <Metadata title={`Edit ${photo.filename}`} description="Edit a photo" />
 
-      <div className="space-x-4 md:flex">
+      <div className="md:flex md:space-x-4">
         <img
           src={`/photos/${photo.filename}`}
           alt={`id ${id}`}
           className="hidden"
-          onLoad={() => setShow(true)}
+          onLoad={onImageLoad}
         />
 
-        <div className="flex w-full justify-center md:w-3/4">
+        <div className="flex w-full justify-center md:w-2/3">
           <div className="mx-0 md:ml-4">
             <Transition
               className="transform ease-out"
               enter="transition duration-500"
               enterFrom="opacity-0 scale-90"
               enterTo="opacity-100 scale-100"
-              show={show}
+              show={showImage}
             >
               <img
                 src={`/photos/${photo.filename}`}
@@ -116,46 +120,73 @@ const EditPage = ({ id }) => {
                   `hue-rotate-[${adjustments['hue-rotate']}deg]`,
                   `saturate-[${adjustments.saturate}]`,
                   `sepia-[${adjustments.sepia}]`,
-                  'rounded shadow shadow-black filter'
+                  'shadow shadow-black filter md:rounded'
                 )}
                 style={{ maxHeight: windowHeight - 50 }}
               />
             </Transition>
           </div>
         </div>
-        <div className="w-1/4">
+        <div className="md:w-1/3">
           <div className="mr-6">
-            <h2 className="border-b-2 border-neutral-600 pb-2 text-xl font-semibold text-neutral-300">
-              {photo.filename}
-            </h2>
+            <Transition
+              className="transform ease-out"
+              enter="transition duration-1000"
+              enterFrom="opacity-0 translate-x-4"
+              enterTo="opacity-100 translate-x-0"
+              show={showTitle}
+            >
+              <h2 className="mt-4 border-b-2 border-neutral-600 pb-2 text-xl font-semibold text-neutral-300 md:mt-0">
+                {photo.filename}
+              </h2>
+            </Transition>
 
             <Transition
               className="ease transform"
-              enter="transition duration-1000"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
+              enter="transition duration-500"
+              enterFrom="opacity-0 translate-y-4"
+              enterTo="opacity-100 translate-y-0"
               show={showControls}
             >
-              <Controls
-                refs={refs}
-                onChange={onChange}
-                onShare={onShare}
-                onReset={onReset}
-                onResetAll={onResetAll}
-              />
+              <div className="mt-4">
+                <Tab.Group>
+                  <Tab.List className="ml-2">
+                    {TABS.map((tab, i) => (
+                      <Tab
+                        key={i}
+                        className={({ selected }) =>
+                          clsx(
+                            selected
+                              ? 'bg-neutral-900 text-neutral-300 focus:outline-none'
+                              : 'bg-transparent text-neutral-500',
+                            'rounded-t px-4 py-2 text-sm font-semibold'
+                          )
+                        }
+                      >
+                        {tab}
+                      </Tab>
+                    ))}
+                  </Tab.List>
+                  <Tab.Panels className="rounded-md bg-neutral-900 p-4">
+                    <Tab.Panel>
+                      <Controls
+                        refs={refs}
+                        onChange={onChange}
+                        onShare={onShare}
+                        onReset={onReset}
+                        onResetAll={onResetAll}
+                      />
+                    </Tab.Panel>
+                    <Tab.Panel>
+                      <Metadata photo={photo} />
+                    </Tab.Panel>
+                  </Tab.Panels>
+                </Tab.Group>
+              </div>
             </Transition>
           </div>
         </div>
       </div>
-      <Transition
-        className="ease transform"
-        enter="transition duration-1000"
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        show={showMetadata}
-      >
-        <Metadata photo={photo} />
-      </Transition>
     </>
   )
 }

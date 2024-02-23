@@ -5,6 +5,10 @@
 table.metadata {
   tr {
     @apply border-b border-neutral-700;
+
+    &:last-child {
+      @apply border-b-0;
+    }
   }
   td {
     @apply py-3;
@@ -19,10 +23,10 @@ table.metadata {
 
 form {
   .control {
-    @apply opacity-75 hover:opacity-100 transition duration-150;
+    @apply opacity-70 hover:opacity-100 transition duration-150;
   }
   label {
-    @apply block text-sm text-neutral-300 flex items-center justify-between;
+    @apply text-sm text-neutral-300 flex items-center justify-between;
   }
   .reset {
     @apply text-xs text-neutral-600 hover:text-neutral-400 transition duration-150;
@@ -36,7 +40,7 @@ input[type=range] {
   @apply appearance-none bg-transparent;
 
   &::-webkit-slider-runnable-track {
-    @apply bg-neutral-700 rounded-full cursor-pointer;
+    @apply bg-neutral-700 h-4 rounded-full cursor-pointer;
   }
 
   &::-moz-range-track {
@@ -48,7 +52,7 @@ input[type=range] {
   }
 
   &::-webkit-slider-thumb {
-    @apply appearance-none w-4 h-4 rounded-full bg-neutral-400 cursor-pointer;
+    @apply appearance-none w-5 h-5 -mt-[2px] rounded-full bg-neutral-400 cursor-pointer;
   }
 
   &::-moz-range-thumb {
