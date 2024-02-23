@@ -5,6 +5,7 @@ import clsx from 'clsx'
 
 import Controls from 'src/components/Controls'
 import Metadata from 'src/components/Metadata'
+import { useEditContext } from 'src/contexts/EditContext'
 
 const DEFAULT_ADJUSTMENTS = {
   brightness: 1,
@@ -15,7 +16,10 @@ const DEFAULT_ADJUSTMENTS = {
   sepia: 0,
 }
 
-const TABS = ['Adjustments', 'Metadata']
+const TABS = [
+  { name: 'tools', label: 'Tools' },
+  { name: 'metadata', label: 'Metadata' },
+]
 
 const EditPage = ({ id }) => {
   const [photo, setPhoto] = useState({})
@@ -32,6 +36,8 @@ const EditPage = ({ id }) => {
     saturate: useRef(),
     sepia: useRef(),
   }
+
+  const { selectedTabIndex, setSelectedTabIndex } = useEditContext()
 
   const onChange = (event) => {
     setAdjustments({
@@ -66,6 +72,10 @@ const EditPage = ({ id }) => {
     setTimeout(() => {
       setShowControls(true)
     }, 500)
+  }
+
+  const onTabChange = (index) => {
+    setSelectedTabIndex(index)
   }
 
   // resize the height of portrait photos so they fit in the browser
@@ -149,7 +159,10 @@ const EditPage = ({ id }) => {
               show={showControls}
             >
               <div className="mt-4">
-                <Tab.Group>
+                <Tab.Group
+                  defaultIndex={selectedTabIndex}
+                  onChange={onTabChange}
+                >
                   <Tab.List className="ml-2">
                     {TABS.map((tab, i) => (
                       <Tab
@@ -163,7 +176,7 @@ const EditPage = ({ id }) => {
                           )
                         }
                       >
-                        {tab}
+                        {tab.label}
                       </Tab>
                     ))}
                   </Tab.List>
