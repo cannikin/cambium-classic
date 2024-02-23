@@ -4,6 +4,8 @@ import path from 'node:path'
 
 import ExifImage from 'exif'
 
+const EXCLUDE_FILES = ['.DS_Store', '.keep']
+
 const photosPath = path.join(
   __filename,
   '..',
@@ -18,7 +20,7 @@ const photosPath = path.join(
 
 const files = fs
   .readdirSync(photosPath)
-  .filter((file) => !file.match(/^\.DS_Store$/))
+  .filter((file) => !EXCLUDE_FILES.includes(file))
 
 const getMetadata = (filename) => {
   return new Promise((resolve, reject) => {
@@ -26,13 +28,7 @@ const getMetadata = (filename) => {
       {
         image: path.join(photosPath, filename),
       },
-      (error, data) => {
-        if (error) {
-          reject(error)
-        } else {
-          resolve(data)
-        }
-      }
+      (error, data) => (error ? reject(error) : resolve(data))
     )
   })
 }
