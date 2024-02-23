@@ -27,7 +27,13 @@ for (let i = 0; i <= 360; i += 1) {
   safelist.push(`hue-rotate-[${i}deg]`)
 }
 
-console.info(safelist.filter((value) => value.match(/hue/)))
+// for -2 to 2 values in 0.01 increments
+for (let i = -2; i <= 2; i += 0.1) {
+  const value = Math.round(i * 100) / 100
+  safelist.push(`rotate-[${value}deg]`)
+}
+
+// console.info(safelist.filter((value) => value.match(/^rotate/)))
 
 module.exports = {
   content: ['src/**/*.{js,jsx,ts,tsx,html}'],

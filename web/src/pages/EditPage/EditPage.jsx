@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
+import { Transition } from '@headlessui/react'
 import clsx from 'clsx'
 import { format } from 'date-fns'
 
@@ -22,6 +23,7 @@ const DEFAULT_ADJUSTMENTS = {
 
 const EditPage = ({ id }) => {
   const [photo, setPhoto] = useState({})
+  const [show, setShow] = useState(false)
   const [adjustments, setAdjustments] = useState(DEFAULT_ADJUSTMENTS)
   const [windowHeight, setWindowHeight] = useState(window.innerHeight)
   const refs = {
@@ -82,22 +84,37 @@ const EditPage = ({ id }) => {
       <Metadata title={`Edit ${photo.filename}`} description="Edit a photo" />
 
       <div className="space-x-4 md:flex">
+        <img
+          src={`/photos/${photo.filename}`}
+          alt={`id ${id}`}
+          className="hidden"
+          onLoad={() => setShow(true)}
+        />
+
         <div className="flex w-full justify-center md:w-3/4">
           <div className="mx-0 md:ml-4">
-            <img
-              src={`/photos/${photo.filename}`}
-              alt={`id ${id}`}
-              className={clsx(
-                `brightness-[${adjustments.brightness}]`,
-                `contrast-[${adjustments.contrast}]`,
-                `grayscale-[${adjustments.grayscale}%]`,
-                `hue-rotate-[${adjustments['hue-rotate']}deg]`,
-                `saturate-[${adjustments.saturate}]`,
-                `sepia-[${adjustments.sepia}]`,
-                'rounded shadow shadow-black filter'
-              )}
-              style={{ maxHeight: windowHeight - 50 }}
-            />
+            <Transition
+              className="ease transform"
+              enter="transition duration-300"
+              enterFrom="opacity-0 scale-110"
+              enterTo="opacity-100 scale-100"
+              show={show}
+            >
+              <img
+                src={`/photos/${photo.filename}`}
+                alt={`id ${id}`}
+                className={clsx(
+                  `brightness-[${adjustments.brightness}]`,
+                  `contrast-[${adjustments.contrast}]`,
+                  `grayscale-[${adjustments.grayscale}%]`,
+                  `hue-rotate-[${adjustments['hue-rotate']}deg]`,
+                  `saturate-[${adjustments.saturate}]`,
+                  `sepia-[${adjustments.sepia}]`,
+                  'rounded shadow shadow-black filter'
+                )}
+                style={{ maxHeight: windowHeight - 50 }}
+              />
+            </Transition>
           </div>
         </div>
         <div className="w-1/4">

@@ -39,7 +39,23 @@ input[type=range] {
     @apply bg-neutral-700 rounded-full cursor-pointer;
   }
 
+  &::-moz-range-track {
+    @apply bg-neutral-700 rounded-full cursor-pointer;
+  }
+
+  &::-ms-track {
+    @apply bg-neutral-700 rounded-full cursor-pointer;
+  }
+
   &::-webkit-slider-thumb {
-    @apply appearance-none w-4 h-4 rounded-full bg-neutral-400 cursor-pointer
+    @apply appearance-none w-4 h-4 rounded-full bg-neutral-400 cursor-pointer;
+  }
+
+  &::-moz-range-thumb {
+    @apply appearance-none w-4 h-4 rounded-full bg-neutral-400 cursor-pointer;
+  }
+
+  &::-ms-thumb {
+    @apply appearance-none w-4 h-4 rounded-full bg-neutral-400 cursor-pointer;
   }
 }
