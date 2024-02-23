@@ -11,7 +11,7 @@ const Slide = ({ photo, onClick }) => {
         <img
           src={`/photos/${photo.filename}`}
           alt={`id ${photo.id}`}
-          className="rounded-sm border border-neutral-200 object-cover md:max-h-50"
+          className="rounded-sm object-cover shadow-inner outline outline-neutral-300 md:max-h-50"
         />
       </div>
     </li>
