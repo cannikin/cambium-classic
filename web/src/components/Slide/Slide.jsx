@@ -7,7 +7,7 @@ const Slide = ({ photo, onClick }) => {
       className="group flex w-1/2 cursor-pointer justify-center p-3 transition duration-150 ease-in-out hover:scale-110 md:w-1/3 lg:w-1/4 xl:w-1/5"
       onClick={() => onClick(photo)}
     >
-      <div className="flex min-h-56 w-full items-center justify-center rounded-lg bg-gradient-to-br from-white to-neutral-100 p-4 shadow shadow-black ring-2 ring-inset ring-neutral-300 group-hover:shadow-lg group-hover:shadow-black">
+      <div className="flex min-h-56 w-full items-center justify-center rounded-lg bg-gradient-to-br from-white to-neutral-100 p-4 shadow shadow-black ring-2 ring-inset ring-neutral-600 group-hover:shadow-lg group-hover:shadow-black">
         <img
           src={`/photos/${photo.filename}`}
           alt={`id ${photo.id}`}

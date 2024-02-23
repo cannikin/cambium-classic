@@ -16,3 +16,30 @@ table.metadata {
     @apply text-sm text-right text-neutral-300;
   }
 }
+
+form {
+  .control {
+    @apply opacity-75 hover:opacity-100 transition duration-150;
+  }
+  label {
+    @apply block text-sm text-neutral-300 flex items-center justify-between;
+  }
+  .reset {
+    @apply text-xs text-neutral-600 hover:text-neutral-400 transition duration-150;
+  }
+  input {
+    @apply mt-1 block w-full;
+  }
+}
+
+input[type=range] {
+  @apply appearance-none bg-transparent;
+
+  &::-webkit-slider-runnable-track {
+    @apply bg-neutral-700 rounded-full cursor-pointer;
+  }
+
+  &::-webkit-slider-thumb {
+    @apply appearance-none w-4 h-4 rounded-full bg-neutral-400 cursor-pointer
+  }
+}
