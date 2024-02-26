@@ -1,4 +1,6 @@
-const controls = [
+import { useParams } from '@redwoodjs/router'
+
+const CONTROLS = [
   {
     name: 'brightness',
     label: 'Brightness',
@@ -32,14 +34,6 @@ const controls = [
     defaultValue: 1,
   },
   {
-    name: 'grayscale',
-    label: 'Black & White',
-    min: 0,
-    max: 100,
-    step: 0.5,
-    defaultValue: 0,
-  },
-  {
     name: 'grain',
     label: 'Grain',
     min: 0,
@@ -50,6 +44,16 @@ const controls = [
 ]
 
 const Controls = ({ refs, onChange, onShare, onReset, onResetAll }) => {
+  const params = useParams()
+
+  // override any defaultValues that are in the URL
+  const controls = CONTROLS.map((control) => {
+    return {
+      ...control,
+      defaultValue: params[control.name] || control.defaultValue,
+    }
+  })
+
   return (
     <form className="mt-4 flex flex-col space-y-5">
       {controls.map((control, i) => (

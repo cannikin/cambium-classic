@@ -15,7 +15,7 @@ const Frame = forwardRef((props, ref) => {
   return (
     <div
       ref={ref}
-      className="flex min-h-56 w-full items-center justify-center rounded-lg bg-gradient-to-br from-white to-neutral-100 p-4 shadow shadow-black ring-2 ring-inset ring-neutral-600 group-hover:shadow-lg group-hover:shadow-black"
+      className="flex min-h-56 w-full items-center justify-center rounded-lg bg-gradient-to-t from-white to-neutral-200 p-4 shadow shadow-black ring-2 ring-inset ring-neutral-600 group-hover:shadow-lg group-hover:shadow-black"
     >
       {props.children}
     </div>
