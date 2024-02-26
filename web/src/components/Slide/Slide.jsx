@@ -1,10 +1,13 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
-import { forwardRef, useEffect, useMemo, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 
 import { Transition } from '@headlessui/react'
 import clsx from 'clsx'
+import { flushSync } from 'react-dom'
+
+import { navigate, routes } from '@redwoodjs/router'
 
 const MAX_ROTATE = 2
 
@@ -19,7 +22,7 @@ const Frame = forwardRef((props, ref) => {
   )
 })
 
-const Slide = ({ photo, onClick }) => {
+const Slide = ({ photo }) => {
   const [show, setShow] = useState(false)
 
   const randomRotate =
@@ -30,6 +33,18 @@ const Slide = ({ photo, onClick }) => {
       setShow(true)
     }, (photo.id * 1000) / 50)
   }, [photo])
+
+  const onClick = (photo) => {
+    if (document.startViewTransition) {
+      document.startViewTransition(() => {
+        flushSync(() => {
+          navigate(routes.edit({ id: photo.id }))
+        })
+      })
+    } else {
+      navigate(routes.edit({ id: photo.id }))
+    }
+  }
 
   return (
     <li

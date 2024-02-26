@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.5s;
+}
+
 table.metadata {
   tr {
     @apply border-b border-neutral-700;
