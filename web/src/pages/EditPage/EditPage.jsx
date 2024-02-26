@@ -14,6 +14,7 @@ const DEFAULT_ADJUSTMENTS = {
   'hue-rotate': 0,
   saturate: 1,
   sepia: 0,
+  grain: 0,
 }
 
 const TABS = [
@@ -35,6 +36,7 @@ const EditPage = ({ id }) => {
     'hue-rotate': useRef(),
     saturate: useRef(),
     sepia: useRef(),
+    grain: useRef(),
   }
 
   const { selectedTabIndex, setSelectedTabIndex } = useEditContext()
@@ -112,7 +114,7 @@ const EditPage = ({ id }) => {
         />
 
         <div className="flex w-full justify-center md:w-2/3">
-          <div className="mx-0 md:ml-4">
+          <div className="relative mx-0 md:ml-4">
             <Transition
               className="transform ease-out"
               enter="transition duration-500"
@@ -134,6 +136,24 @@ const EditPage = ({ id }) => {
                 )}
                 style={{ maxHeight: windowHeight - 50 }}
               />
+              <div className={`opacity-[${adjustments.grain}]`}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={clsx('absolute inset-0 h-full w-full rounded')}
+                >
+                  <filter id="noiseFilter">
+                    <feTurbulence
+                      type="fractalNoise"
+                      baseFrequency={1}
+                      seed={adjustments.grain * 100}
+                      numOctaves={3}
+                      stitchTiles="stitch"
+                    />
+                  </filter>
+
+                  <rect width="100%" height="100%" filter="url(#noiseFilter)" />
+                </svg>
+              </div>
             </Transition>
           </div>
         </div>
