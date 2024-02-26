@@ -59,27 +59,13 @@ const getPhotos = async () => {
   return photos
 }
 
-const photoDetails = async (id) => {
-  const photo = (await getPhotos({ metadata: true })).find(
-    (photo) => photo.id === id
-  )
-
+const photos = async () => {
   return {
     statusCode: 200,
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(photo),
-  }
-}
-
-const allPhotos = async () => {
-  return {
-    statusCode: 200,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(await getPhotos({ metadata: false })),
+    body: JSON.stringify(await getPhotos()),
   }
 }
 
@@ -91,11 +77,8 @@ const notFound = () => {
 }
 
 export const handler = async (event) => {
-  if (event.path.match(/photos\/(\d+)\/?$/)) {
-    const id = parseInt(event.path.match(/photos\/(\d+)/)[1])
-    return await photoDetails(id)
-  } else if (event.path.match(/photos\/?$/)) {
-    return await allPhotos()
+  if (event.path.match(/photos\/?$/)) {
+    return await photos()
   } else {
     return notFound()
   }

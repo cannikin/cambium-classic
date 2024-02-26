@@ -3,14 +3,17 @@ import { useEffect, useRef, useState } from 'react'
 import { Tab, Transition } from '@headlessui/react'
 import clsx from 'clsx'
 
+import { navigate, routes, useParams } from '@redwoodjs/router'
+
+import Blank from 'src/components/Blank/Blank'
 import Controls from 'src/components/Controls'
 import Metadata from 'src/components/Metadata'
 import { useEditContext } from 'src/contexts/EditContext'
+import { usePhotosContext } from 'src/contexts/PhotosContext'
 
 const DEFAULT_ADJUSTMENTS = {
   brightness: 1,
   contrast: 1,
-  grayscale: 0,
   'hue-rotate': 0,
   saturate: 1,
   sepia: 0,
@@ -23,16 +26,20 @@ const TABS = [
 ]
 
 const EditPage = ({ id }) => {
-  const [photo, setPhoto] = useState({})
+  const params = useParams()
+  const { photos, loading } = usePhotosContext()
+  const photo = photos.find((photo) => photo.id === id)
   const [showImage, setShowImage] = useState(false)
   const [showTitle, setShowTitle] = useState(false)
   const [showControls, setShowControls] = useState(false)
-  const [adjustments, setAdjustments] = useState(DEFAULT_ADJUSTMENTS)
+  const [adjustments, setAdjustments] = useState({
+    ...DEFAULT_ADJUSTMENTS,
+    ...params,
+  })
   const [windowHeight, setWindowHeight] = useState(window.innerHeight)
   const refs = {
     brightness: useRef(),
     contrast: useRef(),
-    grayscale: useRef(),
     'hue-rotate': useRef(),
     saturate: useRef(),
     sepia: useRef(),
@@ -41,11 +48,39 @@ const EditPage = ({ id }) => {
 
   const { selectedTabIndex, setSelectedTabIndex } = useEditContext()
 
+  // watch for resize so we can adjust the size of some things
+  useEffect(() => {
+    window.addEventListener('resize', onResize)
+    onResize()
+    return () => {
+      window.removeEventListener('resize', onResize)
+    }
+  }, [])
+
+  // puts the adjustments into query string variables
+  const updateUrl = (name, value) => {
+    let queryParams = { id }
+
+    if (name) {
+      queryParams = { ...queryParams, ...params }
+      if (value) {
+        queryParams[name] = value
+      } else {
+        delete queryParams[name]
+      }
+    }
+
+    navigate(routes.edit(queryParams), {
+      replace: true,
+    })
+  }
+
   const onChange = (event) => {
     setAdjustments({
       ...adjustments,
       [event.target.name]: event.target.value,
     })
+    updateUrl(event.target.name, event.target.value)
   }
 
   const onReset = (name) => {
@@ -54,10 +89,12 @@ const EditPage = ({ id }) => {
       [name]: DEFAULT_ADJUSTMENTS[name],
     })
     refs[name].current.value = DEFAULT_ADJUSTMENTS[name]
+    updateUrl(name, undefined)
   }
 
   const onResetAll = () => {
     setAdjustments(DEFAULT_ADJUSTMENTS)
+    updateUrl()
   }
 
   const onShare = () => {
@@ -80,25 +117,16 @@ const EditPage = ({ id }) => {
     setSelectedTabIndex(index)
   }
 
-  // resize the height of portrait photos so they fit in the browser
-  useEffect(() => {
-    window.addEventListener('resize', onResize)
-    onResize()
-    return () => {
-      window.removeEventListener('resize', onResize)
-    }
-  }, [])
-
-  useEffect(() => {
-    fetch(`/.redwood/functions/photos/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setPhoto(data)
-      })
-  }, [id])
-
   const onResize = () => {
     setWindowHeight(window.innerHeight - 40)
+  }
+
+  if (loading) {
+    return (
+      <Blank>
+        <h2 className="mb-4 text-lg text-neutral-500">Loading photo...</h2>
+      </Blank>
+    )
   }
 
   return (
@@ -128,11 +156,10 @@ const EditPage = ({ id }) => {
                 className={clsx(
                   `brightness-[${adjustments.brightness}]`,
                   `contrast-[${adjustments.contrast}]`,
-                  `grayscale-[${adjustments.grayscale}%]`,
                   `hue-rotate-[${adjustments['hue-rotate']}deg]`,
                   `saturate-[${adjustments.saturate}]`,
                   `sepia-[${adjustments.sepia}]`,
-                  'shadow shadow-black filter md:rounded'
+                  'shadow-lg shadow-black/30 filter md:rounded'
                 )}
                 style={{ maxHeight: windowHeight - 50 }}
               />
@@ -146,9 +173,19 @@ const EditPage = ({ id }) => {
                       type="fractalNoise"
                       baseFrequency={1}
                       seed={adjustments.grain * 100}
-                      numOctaves={3}
+                      numOctaves={4}
                       stitchTiles="stitch"
                     />
+                    <feColorMatrix
+                      type="saturate"
+                      values="0"
+                      x="0%"
+                      y="0%"
+                      width="100%"
+                      height="100%"
+                      in="specularLighting"
+                      result="colormatrix"
+                    ></feColorMatrix>
                   </filter>
 
                   <rect width="100%" height="100%" filter="url(#noiseFilter)" />

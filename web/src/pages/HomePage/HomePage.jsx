@@ -1,47 +1,29 @@
-import { useEffect, useState } from 'react'
-
+import Blank from 'src/components/Blank'
 import Slide from 'src/components/Slide'
+import { usePhotosContext } from 'src/contexts/PhotosContext'
 
 const HomePage = () => {
-  const [photos, setPhotos] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    fetch('/.redwood/functions/photos')
-      .then((response) => response.json())
-      .then((data) => {
-        setPhotos(data)
-        setLoading(false)
-      })
-  }, [])
-
-  const BlankWrapper = ({ children }) => {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <div className="text-center">{children}</div>
-      </div>
-    )
-  }
+  const { photos, loading } = usePhotosContext()
 
   if (loading) {
     return (
-      <BlankWrapper>
+      <Blank>
         <h2 className="mb-4 text-lg text-neutral-500">Loading photos...</h2>
-      </BlankWrapper>
+      </Blank>
     )
   }
 
   // no photos in web/public/photos
   if (photos.length === 0 && !loading) {
     return (
-      <BlankWrapper>
+      <Blank>
         <h2 className="mb-4 text-2xl font-semibold text-neutral-500">
           No photos found
         </h2>
         <p className="text-neutral-600">
           Add photos to <code>web/public/photos</code> to get started.
         </p>
-      </BlankWrapper>
+      </Blank>
     )
   }
 
