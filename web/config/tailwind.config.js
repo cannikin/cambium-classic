@@ -10,12 +10,6 @@ for (let i = 0; i <= 3; i += 0.01) {
   safelist.push(`saturate-[${value}]`)
 }
 
-// For 0% to 100% values in 0.5 increments
-for (let i = 0; i <= 100; i += 0.5) {
-  const value = Math.round(i * 10) / 10
-  safelist.push(`grayscale-[${value}%]`)
-}
-
 // For 0 to 100 values in 1 increments
 for (let i = 0; i <= 1.0; i += 0.01) {
   const value = Math.round(i * 100) / 100
