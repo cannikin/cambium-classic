@@ -8,8 +8,10 @@ import { navigate, routes, useParams } from '@redwoodjs/router'
 import Blank from 'src/components/Blank/Blank'
 import Controls from 'src/components/Controls'
 import Metadata from 'src/components/Metadata'
+import ShareModal from 'src/components/ShareModal/ShareModal'
 import { useEditContext } from 'src/contexts/EditContext'
 import { usePhotosContext } from 'src/contexts/PhotosContext'
+import { useShareContext } from 'src/contexts/ShareContext/ShareContext'
 
 const DEFAULT_ADJUSTMENTS = {
   brightness: 1,
@@ -28,6 +30,7 @@ const TABS = [
 const EditPage = ({ id }) => {
   const params = useParams()
   const { photos, loading } = usePhotosContext()
+  const { show: showShareModal, setShow: setShowShareModal } = useShareContext()
   const photo = photos.find((photo) => photo.id === id)
   const [showImage, setShowImage] = useState(false)
   const [showTitle, setShowTitle] = useState(false)
@@ -98,7 +101,7 @@ const EditPage = ({ id }) => {
   }
 
   const onShare = () => {
-    console.info('share')
+    setShowShareModal(true)
   }
 
   const onImageLoad = () => {
@@ -132,6 +135,8 @@ const EditPage = ({ id }) => {
   return (
     <>
       <Metadata title={`Edit ${photo.filename}`} description="Edit a photo" />
+
+      <ShareModal show={showShareModal} setShow={setShowShareModal} />
 
       <div className="md:flex md:space-x-4">
         <img
