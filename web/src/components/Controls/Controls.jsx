@@ -1,3 +1,12 @@
+import {
+  EyeDropperIcon,
+  EyeIcon,
+  GlobeAltIcon,
+  NoSymbolIcon,
+  SparklesIcon,
+  SunIcon,
+} from '@heroicons/react/24/solid'
+
 import { useParams } from '@redwoodjs/router'
 
 const CONTROLS = [
@@ -8,6 +17,7 @@ const CONTROLS = [
     max: 3,
     step: 0.01,
     defaultValue: 1,
+    icon: <SunIcon className="h-4 w-4" />,
   },
   {
     name: 'contrast',
@@ -16,6 +26,7 @@ const CONTROLS = [
     max: 3,
     step: 0.01,
     defaultValue: 1,
+    icon: <NoSymbolIcon className="h-5 w-5" />,
   },
   {
     name: 'hue-rotate',
@@ -24,6 +35,7 @@ const CONTROLS = [
     max: 360,
     step: 1,
     defaultValue: 0,
+    icon: <GlobeAltIcon className="h-4 w-4" />,
   },
   {
     name: 'saturate',
@@ -32,6 +44,7 @@ const CONTROLS = [
     max: 3,
     step: 0.01,
     defaultValue: 1,
+    icon: <EyeDropperIcon className="h-4 w-4" />,
   },
   {
     name: 'grain',
@@ -40,6 +53,7 @@ const CONTROLS = [
     max: 1,
     step: 0.01,
     defaultValue: 0,
+    icon: <SparklesIcon className="h-4 w-4" />,
   },
 ]
 
@@ -59,7 +73,10 @@ const Controls = ({ refs, onChange, onShare, onReset, onResetAll }) => {
       {controls.map((control, i) => (
         <div key={i} className="control">
           <label htmlFor={control.name}>
-            <span>{control.label}</span>
+            <div className="justify-left flex items-center space-x-1">
+              {control.icon}
+              <span>{control.label}</span>
+            </div>
             <button
               type="button"
               className="reset"
