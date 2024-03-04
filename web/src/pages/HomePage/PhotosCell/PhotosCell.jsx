@@ -11,21 +11,13 @@ export const QUERY = gql`
   }
 `
 
-export const Loading = () => (
-  <Blank>
-    <h2 className="mb-4 text-lg text-neutral-500">Loading photos...</h2>
-  </Blank>
-)
+export const Loading = () => <Blank title="Loading photos..." />
 
 export const Empty = () => (
-  <Blank>
-    <h2 className="mb-4 text-2xl font-semibold text-neutral-500">
-      No photos found
-    </h2>
-    <p className="text-neutral-600">
-      Add photos to <code>web/public/photos</code> to get started.
-    </p>
-  </Blank>
+  <Blank
+    title="No photos found"
+    subtitle="Add photos to <code>web/public/photos</code> to get started."
+  />
 )
 
 export const Failure = ({ error }) => <div>Error: {error.message}</div>
