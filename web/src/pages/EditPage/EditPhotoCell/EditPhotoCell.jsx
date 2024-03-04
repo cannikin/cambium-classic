@@ -9,7 +9,6 @@ import Blank from 'src/components/Blank/Blank'
 import Controls from 'src/components/Controls'
 import Metadata from 'src/components/Metadata'
 import ShareModal from 'src/components/ShareModal/ShareModal'
-import { useEditContext } from 'src/contexts/EditContext'
 import { useShareContext } from 'src/contexts/ShareContext/ShareContext'
 
 const DEFAULT_ADJUSTMENTS = {
@@ -91,8 +90,6 @@ export const Success = ({ photo }) => {
     grain: useRef(),
   }
 
-  const { selectedTabIndex, setSelectedTabIndex } = useEditContext()
-
   // watch for resize so we can adjust the size of some things
   useEffect(() => {
     window.addEventListener('resize', onResize)
@@ -156,10 +153,6 @@ export const Success = ({ photo }) => {
     setTimeout(() => {
       setShowControls(true)
     }, 500)
-  }
-
-  const onTabChange = (index) => {
-    setSelectedTabIndex(index)
   }
 
   const onResize = () => {
@@ -255,10 +248,7 @@ export const Success = ({ photo }) => {
               show={showControls}
             >
               <div className="mt-4">
-                <Tab.Group
-                  defaultIndex={selectedTabIndex}
-                  onChange={onTabChange}
-                >
+                <Tab.Group>
                   <Tab.List className="ml-2">
                     {TABS.map((tab, i) => (
                       <Tab
