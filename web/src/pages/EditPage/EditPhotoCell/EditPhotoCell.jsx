@@ -6,10 +6,10 @@ import clsx from 'clsx'
 import { navigate, routes, useParams } from '@redwoodjs/router'
 
 import Blank from 'src/components/Blank/Blank'
-import Controls from 'src/components/Controls'
-import Metadata from 'src/components/Metadata'
-import ShareModal from 'src/components/ShareModal/ShareModal'
-import { useShareContext } from 'src/contexts/ShareContext/ShareContext'
+
+import Controls from './Controls'
+import Metadata from './Metadata'
+import ShareModal from './ShareModal'
 
 const DEFAULT_ADJUSTMENTS = {
   brightness: 1,
@@ -72,7 +72,7 @@ export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
 export const Success = ({ photo }) => {
   const params = useParams()
-  const { show: showShareModal, setShow: setShowShareModal } = useShareContext()
+  const [showModal, setShowModal] = useState(false)
   const [showImage, setShowImage] = useState(false)
   const [showTitle, setShowTitle] = useState(false)
   const [showControls, setShowControls] = useState(false)
@@ -140,7 +140,7 @@ export const Success = ({ photo }) => {
   }
 
   const onShare = () => {
-    setShowShareModal(true)
+    setShowModal(true)
   }
 
   const onImageLoad = () => {
@@ -163,7 +163,7 @@ export const Success = ({ photo }) => {
     <>
       <Metadata title={`Edit ${photo.filename}`} description="Edit a photo" />
 
-      <ShareModal show={showShareModal} setShow={setShowShareModal} />
+      <ShareModal show={showModal} setShow={setShowModal} />
 
       <div className="md:flex md:space-x-4">
         <img
