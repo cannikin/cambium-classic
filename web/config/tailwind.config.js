@@ -27,7 +27,7 @@ for (let i = -2; i <= 2; i += 0.1) {
   safelist.push(`rotate-[${value}deg]`)
 }
 
-console.info(safelist.filter((value) => value.match(/^opacity/)))
+// console.info(safelist.filter((value) => value.match(/^opacity/)))
 
 module.exports = {
   content: ['src/**/*.{js,jsx,ts,tsx,html}'],
