@@ -1,5 +1,6 @@
 import Blank from 'src/components/Blank'
-import Slide from 'src/components/Slide'
+
+import Slide from './Slide'
 
 export const QUERY = gql`
   query GetPhotos {
