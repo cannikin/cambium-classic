@@ -1,7 +1,7 @@
 import EditPhotoCell from './EditPhotoCell'
 
-const EditPage = ({ id }) => {
+const EditPhotoPage = ({ id }) => {
   return <EditPhotoCell id={id} />
 }
 
-export default EditPage
+export default EditPhotoPage

@@ -5,9 +5,10 @@ import { ClipboardDocumentIcon } from '@heroicons/react/24/outline'
 
 const ShareModal = ({ show, setShow }) => {
   const [copied, setCopied] = useState(false)
+  const link = location.href.replace('/edit', '')
 
   const onCopy = () => {
-    navigator.clipboard.writeText(location.href)
+    navigator.clipboard.writeText(link)
     setCopied(true)
   }
 
@@ -55,7 +56,7 @@ const ShareModal = ({ show, setShow }) => {
                     <input
                       type="text"
                       className="w-full cursor-pointer rounded border border-neutral-500 bg-neutral-700 px-2 py-2 text-neutral-400 outline-none hover:border-neutral-400"
-                      defaultValue={location.href}
+                      defaultValue={link}
                       readOnly
                       title="Click to copy"
                       onClick={onCopy}

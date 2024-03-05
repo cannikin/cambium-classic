@@ -68,3 +68,23 @@ input[type=range] {
     @apply appearance-none w-4 h-4 rounded-full bg-neutral-400 cursor-pointer;
   }
 }
+
+.detail {
+  @apply mt-2;
+
+  td {
+    @apply px-8;
+  }
+
+  h2 {
+    @apply text-xs text-neutral-500;
+  }
+
+  h3 {
+    @apply -mt-1 text-lg font-semibold text-neutral-300
+  }
+}
+
+.button {
+  @apply rounded-sm bg-neutral-300 px-2 py-2 text-sm font-semibold text-neutral-800 ring-2 ring-neutral-600 transition duration-150 ease-in-out hover:scale-105 hover:bg-neutral-200
+}

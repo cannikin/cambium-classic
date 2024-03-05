@@ -101,7 +101,7 @@ const Controls = ({ refs, onChange, onShare, onReset, onResetAll }) => {
       <div className="flex flex-col justify-between space-y-2 pt-4 lg:flex-row lg:space-x-4 lg:space-y-0">
         <button
           type="button"
-          className="w-full rounded-sm bg-neutral-300 px-2 py-2 text-sm font-semibold text-neutral-800 ring-2 ring-neutral-600 transition duration-150 ease-in-out hover:scale-105 hover:bg-neutral-200 lg:w-2/3"
+          className="button w-full lg:w-2/3"
           onClick={onShare}
         >
           Share
