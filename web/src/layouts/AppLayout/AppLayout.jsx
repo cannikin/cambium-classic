@@ -22,14 +22,14 @@ const AppLayout = ({ children }) => {
 
       <div className="mx-auto max-w-screen-lg pb-16 xl:max-w-screen-xl">
         <header className="px-4 pb-4 pt-6">
-          <h1 className="flex items-start text-3xl font-semibold text-white">
-            <div className="flex h-8 w-8 items-center justify-center rounded-sm bg-white">
+          <h1 className="group flex items-start">
+            <div className="flex h-8 w-8 items-center justify-center rounded-sm bg-neutral-500 transition duration-150 group-hover:bg-white">
               <div className="h-4 w-6 bg-neutral-800">&nbsp;</div>
             </div>
             <button
               type="button"
               onClick={onClick}
-              className="ml-2 hover:underline"
+              className="ml-2 text-3xl  font-semibold text-neutral-500 transition duration-150 group-hover:text-white"
             >
               cambium
             </button>
