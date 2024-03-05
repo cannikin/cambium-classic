@@ -79,7 +79,7 @@ const Controls = ({ refs, onChange, onReset, onResetAll }) => {
             </div>
             <button
               type="button"
-              className="reset"
+              className="py-1/2 rounded-full bg-neutral-800 px-2 text-xs text-neutral-600 transition duration-150 hover:text-neutral-400"
               onClick={() => onReset(control.name)}
             >
               Reset
@@ -100,7 +100,7 @@ const Controls = ({ refs, onChange, onReset, onResetAll }) => {
       <div className="flex justify-end">
         <button
           type="reset"
-          className="w-full whitespace-nowrap rounded-sm bg-neutral-700 px-2 py-2 text-sm text-neutral-400 transition duration-150 ease-in-out hover:bg-neutral-600 hover:text-neutral-300 lg:w-1/3"
+          className="rounded-full bg-neutral-800 px-3 py-1 text-xs text-neutral-600 transition duration-150 hover:text-white"
           onClick={onResetAll}
         >
           Reset All
