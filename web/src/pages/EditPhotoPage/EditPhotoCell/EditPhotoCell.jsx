@@ -14,7 +14,6 @@ import Blank from 'src/components/Blank/Blank'
 import Actions from './Actions'
 import Controls from './Controls'
 import Metadata from './Metadata'
-import ShareModal from './ShareModal'
 
 const DEFAULT_ADJUSTMENTS = {
   brightness: 1,
@@ -77,7 +76,6 @@ export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
 export const Success = ({ photo }) => {
   const params = useParams()
-  const [showModal, setShowModal] = useState(false)
   const [showImage, setShowImage] = useState(false)
   const [showTitle, setShowTitle] = useState(false)
   const [showControls, setShowControls] = useState(false)
@@ -167,8 +165,6 @@ export const Success = ({ photo }) => {
   return (
     <>
       <Metadata title={`Edit ${photo.filename}`} description="Edit a photo" />
-
-      <ShareModal show={showModal} setShow={setShowModal} />
 
       <div className="md:flex md:space-x-4">
         <img
@@ -281,7 +277,6 @@ export const Success = ({ photo }) => {
                         <Controls
                           refs={refs}
                           onChange={onChange}
-                          onShare={onShare}
                           onReset={onReset}
                           onResetAll={onResetAll}
                         />
@@ -294,7 +289,7 @@ export const Success = ({ photo }) => {
                     </Tab.Panel>
                   </Tab.Panels>
                 </Tab.Group>
-                <Actions onShare={onShare} onResetAll={onResetAll} />
+                <Actions onShare={onShare} />
               </div>
             </Transition>
           </div>
