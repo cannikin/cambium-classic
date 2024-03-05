@@ -57,11 +57,8 @@ export const photo = async ({ id }) => {
     filename
   )
 
-  console.log('imageMetadata', imageMetadata)
-  console.log('exifMetadata', exifMetadata)
-
   const fStop = Math.round(1.4142 ** exifMetadata.ApertureValue * 10) / 10
-  const shutterSpeed = `1/${1 / exifMetadata.ExposureTime}`
+  const shutterSpeed = `1/${parseInt(1 / exifMetadata.ExposureTime)}`
 
   const output = {
     id,
