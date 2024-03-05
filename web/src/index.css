@@ -19,10 +19,10 @@ table.metadata {
     @apply py-3;
   }
   td:first-child {
-    @apply text-sm text-left text-neutral-400;
+    @apply text-sm text-left text-neutral-500;
   }
   td:last-child {
-    @apply text-sm text-right text-neutral-300;
+    @apply text-base text-right text-neutral-300 font-semibold;
   }
 }
 
@@ -49,23 +49,23 @@ input[type=range] {
   }
 
   &::-moz-range-track {
-    @apply bg-neutral-700 rounded-full cursor-pointer;
+    @apply bg-neutral-700 h-4 rounded-full cursor-pointer;
   }
 
   &::-ms-track {
-    @apply bg-neutral-700 rounded-full cursor-pointer;
+    @apply bg-neutral-700 h-4 rounded-full cursor-pointer;
   }
 
   &::-webkit-slider-thumb {
-    @apply appearance-none w-5 h-5 -mt-[2px] rounded-full bg-neutral-400 cursor-pointer;
+    @apply appearance-none w-5 h-5 -mt-[2px] rounded-full bg-neutral-400 cursor-pointer hover:scale-110 transition duration-150;
   }
 
   &::-moz-range-thumb {
-    @apply appearance-none w-4 h-4 rounded-full bg-neutral-400 cursor-pointer;
+    @apply appearance-none w-5 h-5 -mt-[2px] rounded-full bg-neutral-400 cursor-pointer hover:scale-110 transition duration-150;
   }
 
   &::-ms-thumb {
-    @apply appearance-none w-4 h-4 rounded-full bg-neutral-400 cursor-pointer;
+    @apply appearance-none w-5 h-5 -mt-[2px] rounded-full bg-neutral-400 cursor-pointer hover:scale-110 transition duration-150;
   }
 }
 
