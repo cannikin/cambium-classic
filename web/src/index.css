@@ -86,5 +86,5 @@ input[type=range] {
 }
 
 .button {
-  @apply rounded-sm bg-neutral-300 px-2 py-2 text-sm font-semibold text-neutral-800 ring-2 ring-neutral-600 transition duration-150 ease-in-out hover:scale-105 hover:bg-neutral-200
+  @apply rounded-sm bg-neutral-300 px-6 py-2 text-sm font-semibold text-neutral-800 ring-2 ring-neutral-600 transition duration-150 ease-in-out hover:scale-105 hover:bg-neutral-200
 }
