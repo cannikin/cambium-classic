@@ -1,12 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { Tab, Transition } from '@headlessui/react'
+import {
+  AdjustmentsHorizontalIcon,
+  CodeBracketSquareIcon,
+} from '@heroicons/react/24/solid'
 import clsx from 'clsx'
 
 import { navigate, routes, useParams } from '@redwoodjs/router'
 
 import Blank from 'src/components/Blank/Blank'
 
+import Actions from './Actions'
 import Controls from './Controls'
 import Metadata from './Metadata'
 import ShareModal from './ShareModal'
@@ -21,8 +26,14 @@ const DEFAULT_ADJUSTMENTS = {
 }
 
 const TABS = [
-  { name: 'tools', label: 'Tools' },
-  { name: 'metadata', label: 'Metadata' },
+  {
+    label: 'Adjust',
+    icon: <AdjustmentsHorizontalIcon className="h-5 w-5" />,
+  },
+  {
+    label: 'Metadata',
+    icon: <CodeBracketSquareIcon className="h-5 w-5" />,
+  },
 ]
 
 export const QUERY = gql`
@@ -36,6 +47,8 @@ export const QUERY = gql`
           Model
           XResolution
           YResolution
+          Copyright
+          Author
         }
         exif {
           DateTimeOriginal
@@ -218,6 +231,7 @@ export const Success = ({ photo }) => {
             </Transition>
           </div>
         </div>
+
         <div className="md:w-1/3">
           <div className="mr-6">
             <Transition
@@ -248,31 +262,39 @@ export const Success = ({ photo }) => {
                         className={({ selected }) =>
                           clsx(
                             selected
-                              ? 'bg-neutral-900 text-neutral-300 focus:outline-none'
+                              ? 'bg-neutral-900 font-semibold text-neutral-300  focus:outline-none'
                               : 'bg-transparent text-neutral-500',
-                            'rounded-t px-4 py-2 text-sm font-semibold'
+                            'rounded-t px-4 py-2 text-sm'
                           )
                         }
                       >
-                        {tab.label}
+                        <div className="flex items-center space-x-1">
+                          {tab.icon}
+                          <span>{tab.label}</span>
+                        </div>
                       </Tab>
                     ))}
                   </Tab.List>
-                  <Tab.Panels className="rounded-md bg-neutral-900 p-4">
+                  <Tab.Panels className="rounded-md bg-neutral-900 px-6">
                     <Tab.Panel>
-                      <Controls
-                        refs={refs}
-                        onChange={onChange}
-                        onShare={onShare}
-                        onReset={onReset}
-                        onResetAll={onResetAll}
-                      />
+                      <div className="py-8">
+                        <Controls
+                          refs={refs}
+                          onChange={onChange}
+                          onShare={onShare}
+                          onReset={onReset}
+                          onResetAll={onResetAll}
+                        />
+                      </div>
                     </Tab.Panel>
                     <Tab.Panel>
-                      <Metadata photo={photo} />
+                      <div className="py-4">
+                        <Metadata photo={photo} />
+                      </div>
                     </Tab.Panel>
                   </Tab.Panels>
                 </Tab.Group>
+                <Actions onShare={onShare} onResetAll={onResetAll} />
               </div>
             </Transition>
           </div>
