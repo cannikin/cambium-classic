@@ -7,8 +7,7 @@ import ExifImage from 'exif'
 const EXCLUDE_FILES = ['.DS_Store', '.keep']
 
 const photosPath = path.join(
-  __filename,
-  '..',
+  __dirname,
   '..',
   '..',
   '..',
@@ -29,15 +28,18 @@ const getMetadata = (filename) => {
   })
 }
 
-export const photos = () => {
-  const files = fs
+const getFiles = () => {
+  return fs
     .readdirSync(photosPath)
     .filter((file) => !EXCLUDE_FILES.includes(file))
+}
 
+// returns the collection of all available photos
+export const photos = () => {
   const photos = []
   let id = 1
 
-  for (const filename of files) {
+  for (const filename of getFiles()) {
     photos.push({
       id: id++,
       filename,
@@ -47,15 +49,17 @@ export const photos = () => {
   return photos
 }
 
+// returns the metadata for a specific photo
 export const photo = async ({ id }) => {
-  const files = fs
-    .readdirSync(photosPath)
-    .filter((file) => !EXCLUDE_FILES.includes(file))
-  const filename = files[id - 1]
+  const filename = getFiles()[id - 1]
 
   const { image: imageMetadata, exif: exifMetadata } = await getMetadata(
     filename
   )
+
+  console.log('imageMetadata', imageMetadata)
+  console.log('exifMetadata', exifMetadata)
+
   const fStop = Math.round(1.4142 ** exifMetadata.ApertureValue * 10) / 10
   const shutterSpeed = `1/${1 / exifMetadata.ExposureTime}`
 
@@ -68,6 +72,8 @@ export const photo = async ({ id }) => {
         Model: imageMetadata.Model,
         XResolution: imageMetadata.XResolution,
         YResolution: imageMetadata.YResolution,
+        Copyright: imageMetadata.Copyright || '',
+        Author: imageMetadata.Author || '',
       },
       exif: {
         DateTimeOriginal: exifMetadata.DateTimeOriginal,
@@ -80,8 +86,6 @@ export const photo = async ({ id }) => {
       },
     },
   }
-
-  console.info(output)
 
   return output
 }

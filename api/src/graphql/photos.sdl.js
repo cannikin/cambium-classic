@@ -15,6 +15,8 @@ export const schema = gql`
     Model: String!
     XResolution: Int!
     YResolution: Int!
+    Copyright: String!
+    Author: String!
   }
 
   type ExifMetadata {
