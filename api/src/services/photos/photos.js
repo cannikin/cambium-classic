@@ -4,8 +4,6 @@ import path from 'node:path'
 
 import ExifImage from 'exif'
 
-const EXCLUDE_FILES = ['.DS_Store', '.keep']
-
 const photosPath = path.join(
   __dirname,
   '..',
@@ -31,7 +29,8 @@ const getMetadata = (filename) => {
 const getFiles = ({ thumb }) => {
   return fs
     .readdirSync(photosPath)
-    .filter((file) => !EXCLUDE_FILES.includes(file))
+    .filter((file) => !file.startsWith('.'))
+    .filter((file) => fs.statSync(path.join(photosPath, file)).isFile())
     .filter((file) =>
       thumb ? file.includes('thumb') : !file.includes('thumb')
     )
