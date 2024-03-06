@@ -20,3 +20,6 @@ api/src/lib/generateGraphiQLHeader.*
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+web/public/photos/jpg/*
+web/public/photos/webp/*
