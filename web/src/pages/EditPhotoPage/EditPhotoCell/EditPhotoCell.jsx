@@ -142,10 +142,6 @@ export const Success = ({ photo }) => {
     updateUrl()
   }
 
-  const onShare = () => {
-    setShowModal(true)
-  }
-
   const onImageLoad = () => {
     setShowImage(true)
 
@@ -289,7 +285,7 @@ export const Success = ({ photo }) => {
                     </Tab.Panel>
                   </Tab.Panels>
                 </Tab.Group>
-                <Actions onShare={onShare} />
+                <Actions />
               </div>
             </Transition>
           </div>
